@@ -1,51 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import Layout from '../components/layout/Layout';
-import { getAllProjects } from '../utils/mdx';
-import { Project } from '../types/Project';
 import { motion } from 'framer-motion';
+import Layout from '../components/layout/Layout';
+import { getAllProjects, getAllBlogPosts } from '../utils/mdx';
+import { Project } from '../types/Project';
+import { BlogPost } from '../types/BlogPost';
+import Section from '../components/layout/Section';
+import HeroSection from '../components/sections/HeroSection';
 
 interface HomePageProps {
   projects: Project[];
+  blogPosts: BlogPost[];
 }
 
 const HomeContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+  width: 100%;
 `;
 
-const Hero = styled.section`
-  min-height: 70vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 2rem 0;
-`;
-
-const HeroTitle = styled(motion.h1)`
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  margin-bottom: 1rem;
-`;
-
-const HeroSubtitle = styled(motion.h2)`
-  color: ${props => props.theme.text.secondary};
-  font-size: clamp(1rem, 4vw, 1.5rem);
-  font-weight: 400;
-  margin-bottom: 2rem;
-`;
-
-const About = styled(motion.p)`
-  max-width: 600px;
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-`;
-
-const ProjectsSection = styled.section`
-  padding: 4rem 0;
-`;
-
-const SectionTitle = styled.h2`
+const SectionHeading = styled.h2`
   font-size: 2rem;
   margin-bottom: 2rem;
   position: relative;
@@ -104,6 +76,64 @@ const ProjectSummary = styled.p`
   margin-bottom: 1rem;
 `;
 
+
+const BlogGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+`;
+
+const BlogCard = styled(motion.div)`
+  background-color: ${props => props.theme.bg.secondary};
+  border-radius: ${props => props.theme.radii.md};
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const BlogContent = styled.div`
+  padding: 1.5rem;
+`;
+
+const BlogTitle = styled.h3`
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+`;
+
+const BlogSummary = styled.p`
+  color: ${props => props.theme.text.secondary};
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+`;
+
+const BlogMeta = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: ${props => props.theme.text.secondary};
+`;
+
+const BlogTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+`;
+
+const BlogTag = styled.span`
+  background-color: ${props => props.theme.bg.tertiary};
+  color: ${props => props.theme.text.secondary};
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: ${props => props.theme.radii.full};
+`;
+
 const ProjectTags = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -132,42 +162,18 @@ const fadeInUpVariants = {
   })
 };
 
-export default function Home({ projects }: HomePageProps) {
+export default function Home({ projects, blogPosts }: HomePageProps) {
   const featuredProjects = projects.filter(project => project.featured);
+  // Get the 3 most recent blog posts
+  const recentBlogPosts = blogPosts.slice(0, 3);
   
   return (
     <Layout title="Liminal Portfolio - Home" description="A modern, minimalist developer portfolio with blog capabilities.">
       <HomeContainer>
-        <Hero>
-          <HeroTitle
-            variants={fadeInUpVariants}
-            initial="hidden"
-            animate="visible"
-            custom={0}
-          >
-            Liminal <span style={{ color: '#64FFDA' }}>Portfolio</span>
-          </HeroTitle>
-          <HeroSubtitle
-            variants={fadeInUpVariants}
-            initial="hidden"
-            animate="visible"
-            custom={1}
-          >
-            Developer • Designer • Writer
-          </HeroSubtitle>
-          <About
-            variants={fadeInUpVariants}
-            initial="hidden"
-            animate="visible"
-            custom={2}
-          >
-            I&apos;m a fullstack developer with a passion for building clean, efficient, and user-friendly web applications. 
-            With over 5 years of experience in web development, I specialize in React, TypeScript, and Node.js.
-          </About>
-        </Hero>
+        <HeroSection />
         
-        <ProjectsSection>
-          <SectionTitle>Featured Projects</SectionTitle>
+        <Section id="projects">
+          <SectionHeading>Featured Projects</SectionHeading>
           <ProjectGrid>
             {featuredProjects.map((project, index) => (
               <ProjectCard 
@@ -193,7 +199,39 @@ export default function Home({ projects }: HomePageProps) {
               </ProjectCard>
             ))}
           </ProjectGrid>
-        </ProjectsSection>
+        </Section>
+
+        <Section id="blog">
+          <SectionHeading>Latest Blog Posts</SectionHeading>
+          <BlogGrid>
+            {recentBlogPosts.map((post, index) => (
+              <BlogCard 
+                key={post.id}
+                variants={fadeInUpVariants}
+                initial="hidden"
+                animate="visible"
+                custom={index + featuredProjects.length + 3}
+              >
+                <BlogContent>
+                  <BlogTitle>{post.title}</BlogTitle>
+                  <BlogSummary>{post.summary}</BlogSummary>
+                  <BlogMeta>
+                    <span>{new Date(post.date).toLocaleDateString()}</span>
+                    {post.readingTime && <span>{post.readingTime}</span>}
+                  </BlogMeta>
+                  <BlogTags>
+                    {post.tags.slice(0, 3).map(tag => (
+                      <BlogTag key={tag}>{tag}</BlogTag>
+                    ))}
+                    {post.tags.length > 3 && (
+                      <BlogTag>+{post.tags.length - 3}</BlogTag>
+                    )}
+                  </BlogTags>
+                </BlogContent>
+              </BlogCard>
+            ))}
+          </BlogGrid>
+        </Section>
       </HomeContainer>
     </Layout>
   );
@@ -201,10 +239,12 @@ export default function Home({ projects }: HomePageProps) {
 
 export async function getStaticProps() {
   const projects = getAllProjects();
+  const blogPosts = getAllBlogPosts();
   
   return {
     props: {
       projects,
+      blogPosts,
     },
   };
 }
