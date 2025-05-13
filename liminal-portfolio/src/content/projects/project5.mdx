@@ -1,0 +1,31 @@
+---
+id: "project5"
+title: "Code Learning Platform"
+slug: "code-learning-platform"
+summary: "An interactive learning platform for coding with live code execution, progress tracking, and community features."
+image: "/images/projects/codelearning.jpg"
+techStack: ["Next.js", "GraphQL", "Apollo", "PostgreSQL", "Docker", "AWS"]
+githubUrl: "https://github.com/username/codelearning"
+liveUrl: "https://codelearn.example.com"
+featured: false
+date: "2022-07-12"
+---
+
+An educational platform for learning programming through interactive lessons, live code execution, and community-driven learning paths.
+
+## Features
+
+- Interactive coding exercises with real-time feedback
+- In-browser code editor with syntax highlighting
+- Progress tracking and achievement system
+- Community forums and discussion
+- Custom learning paths for different technologies
+- Code challenges and competitions
+
+## Implementation
+
+This project uses Next.js for the frontend and a GraphQL API with Apollo Server. The database is PostgreSQL, and the entire platform is containerized with Docker for easy deployment on AWS. The code execution environment uses isolated containers for security.
+
+## Challenges
+
+Creating a secure environment for executing user code was the primary challenge. I implemented a sandboxed execution system using Docker containers with strict resource limits and security policies. Another challenge was building a scalable architecture that could handle thousands of concurrent users executing code without performance degradation.

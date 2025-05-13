@@ -1,0 +1,173 @@
+---
+id: "framer-motion-animations"
+title: "Creating Smooth Animations with Framer Motion"
+slug: "framer-motion-animations"
+date: "2023-02-18"
+summary: "Learn how to implement beautiful, physics-based animations in your React applications using Framer Motion."
+tags: ["React", "Animation", "Framer Motion", "UI/UX"]
+category: "Design"
+---
+
+# Creating Smooth Animations with Framer Motion
+
+Framer Motion is a powerful animation library for React that makes creating complex, physics-based animations surprisingly simple. It's designed to bring production-ready animations to React projects with an intuitive API.
+
+## Why Choose Framer Motion?
+
+Framer Motion offers several advantages over other animation libraries:
+
+- **Simple API**: Declarative syntax that's easy to understand
+- **Variants**: Define animation states that propagate to children
+- **Gestures**: Built-in support for drag, hover, tap, and other gestures
+- **Layout animations**: Automatic animations when layout changes
+- **Exit animations**: Animate components when they're unmounted
+- **Accessibility**: Respects user's reduced motion preferences
+
+## Getting Started
+
+First, install the library:
+
+```bash
+npm install framer-motion
+# or
+yarn add framer-motion
+```
+
+Then import the `motion` component in your React components:
+
+```jsx
+import { motion } from 'framer-motion';
+
+function App() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      Hello Framer Motion
+    </motion.div>
+  );
+}
+```
+
+## Basic Animations
+
+### Fade In
+
+```jsx
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 0.5 }}
+>
+  Fade in
+</motion.div>
+```
+
+### Slide In
+
+```jsx
+<motion.div
+  initial={{ x: -100, opacity: 0 }}
+  animate={{ x: 0, opacity: 1 }}
+  transition={{ duration: 0.8 }}
+>
+  Slide in from left
+</motion.div>
+```
+
+### Scale
+
+```jsx
+<motion.div
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{ duration: 0.5 }}
+>
+  Scale up
+</motion.div>
+```
+
+## Advanced Features
+
+### Variants
+
+Variants allow you to define reusable animation states:
+
+```jsx
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1 }
+};
+
+function List() {
+  return (
+    <motion.ul
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {items.map(item => (
+        <motion.li key={item.id} variants={itemVariants}>
+          {item.text}
+        </motion.li>
+      ))}
+    </motion.ul>
+  );
+}
+```
+
+### Gestures
+
+Framer Motion has built-in support for gesture animations:
+
+```jsx
+<motion.button
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.95 }}
+  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+>
+  Click me
+</motion.button>
+```
+
+### Layout Animations
+
+Automatic animations when layout changes:
+
+```jsx
+<motion.div
+  layout
+  onClick={() => setIsExpanded(!isExpanded)}
+  style={{
+    background: "rgba(255, 255, 255, 0.2)",
+    borderRadius: "30px",
+    width: isExpanded ? 300 : 100,
+    height: isExpanded ? 200 : 100,
+  }}
+/>
+```
+
+## Best Practices
+
+1. **Keep animations subtle**: Avoid excessive or distracting animations
+2. **Use spring physics**: For more natural-feeling animations, use spring instead of duration
+3. **Respect user preferences**: Use `useReducedMotion` hook for users who prefer reduced motion
+4. **Animate exit**: Don't forget to animate components when they're removed with `AnimatePresence`
+5. **Performance**: Be mindful of performance, especially on mobile devices
+
+## Conclusion
+
+Framer Motion provides a powerful yet easy-to-use API for creating beautiful animations in React applications. By leveraging its declarative approach and built-in features like variants and gestures, you can create engaging user experiences that feel smooth and natural.
