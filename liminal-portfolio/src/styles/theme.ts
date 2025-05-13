@@ -61,6 +61,31 @@ export const theme: Theme = {
     xl: '16px',
     full: '9999px',
   },
+  cards: {
+    width: '320px',
+    height: 'auto',
+    imageHeight: '200px',
+    contentPadding: {
+      vertical: '1.5rem',
+      horizontal: '1.75rem',
+    },
+    titleMargin: '0.75rem',
+    summaryMargin: '1rem',
+    gap: '2rem',
+    background: 'rgba(30, 30, 30, 0.7)',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    borderRadius: '12px',
+    hoverElevation: '0 15px 30px rgba(0, 0, 0, 0.3)',
+    hoverTransform: 'translateY(-5px) scale(1.02)',
+    transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
+    titleColor: '#FFFFFF',
+    summaryColor: 'rgba(255, 255, 255, 0.7)',
+    tagBackground: 'rgba(100, 255, 218, 0.1)',
+    tagColor: 'rgba(100, 255, 218, 0.8)',
+    tagBorder: '1px solid rgba(100, 255, 218, 0.2)',
+    imageOverlay: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 100%)',
+  },
 };
 
 export default theme;

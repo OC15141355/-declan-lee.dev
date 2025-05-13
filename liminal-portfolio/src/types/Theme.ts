@@ -59,4 +59,29 @@ export interface Theme {
     xl: string;
     full: string;
   };
+  cards: {
+    width: string;
+    height: string;
+    imageHeight: string;
+    contentPadding: {
+      vertical: string;
+      horizontal: string;
+    };
+    titleMargin: string;
+    summaryMargin: string;
+    gap: string;
+    background: string;
+    backdropFilter: string;
+    border: string;
+    borderRadius: string;
+    hoverElevation: string;
+    hoverTransform: string;
+    transition: string;
+    titleColor: string;
+    summaryColor: string;
+    tagBackground: string;
+    tagColor: string;
+    tagBorder: string;
+    imageOverlay: string;
+  };
 }

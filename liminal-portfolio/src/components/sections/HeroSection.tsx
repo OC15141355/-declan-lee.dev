@@ -13,11 +13,14 @@ const HeroContainer = styled.div`
   justify-content: center;
   position: relative;
   overflow: hidden;
+  padding: 0 clamp(1.5rem, 5vw, 3rem);
 `;
 
 const HeroContent = styled.div`
   max-width: 800px;
   z-index: 1;
+  margin: 0 auto 0 0;
+  padding: 2rem 0;
 `;
 
 const Greeting = styled(motion.p)`
@@ -47,11 +50,12 @@ const Title = styled.h2`
 const Description = styled.p`
   font-size: 1.1rem;
   max-width: 600px;
-  margin-bottom: 2.5rem;
-  line-height: 1.6;
+  margin-bottom: 3rem;
+  line-height: 1.7;
   
   @media (max-width: ${props => props.theme.breakpoints?.md || '768px'}) {
     font-size: 1rem;
+    margin-bottom: 2.5rem;
   }
 `;
 

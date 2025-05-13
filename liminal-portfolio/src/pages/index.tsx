@@ -37,79 +37,106 @@ const SectionHeading = styled.h2`
 
 const ProjectGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(${props => props.theme.cards.width}, 1fr));
+  gap: ${props => props.theme.cards.gap};
   margin-top: 2rem;
 `;
 
 const ProjectCard = styled(motion.div)`
-  background-color: ${props => props.theme.bg.secondary};
-  border-radius: ${props => props.theme.radii.md};
+  background: ${props => props.theme.cards.background};
+  backdrop-filter: ${props => props.theme.cards.backdropFilter};
+  border: ${props => props.theme.cards.border};
+  border-radius: ${props => props.theme.cards.borderRadius};
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: ${props => props.theme.cards.transition};
+  width: ${props => props.theme.cards.width};
+  height: ${props => props.theme.cards.height};
   
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transform: ${props => props.theme.cards.hoverTransform};
+    box-shadow: ${props => props.theme.cards.hoverElevation};
   }
 `;
 
 const ProjectImage = styled.div`
-  height: 180px;
+  height: ${props => props.theme.cards.imageHeight};
   background-color: ${props => props.theme.bg.tertiary};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  position: relative;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: ${props => props.theme.cards.imageOverlay};
+  }
 `;
 
 const ProjectContent = styled.div`
-  padding: 1.5rem;
+  padding: ${props => `${props.theme.cards.contentPadding.vertical} ${props.theme.cards.contentPadding.horizontal}`};
+  border-top: ${props => props.theme.cards.border};
 `;
 
 const ProjectTitle = styled.h3`
   font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: ${props => props.theme.cards.titleMargin};
+  color: ${props => props.theme.cards.titleColor};
+  font-weight: 600;
 `;
 
 const ProjectSummary = styled.p`
-  color: ${props => props.theme.text.secondary};
+  color: ${props => props.theme.cards.summaryColor};
   font-size: 0.9rem;
-  margin-bottom: 1rem;
+  margin-bottom: ${props => props.theme.cards.summaryMargin};
+  line-height: 1.6;
 `;
 
 
 const BlogGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(${props => props.theme.cards.width}, 1fr));
+  gap: ${props => props.theme.cards.gap};
   margin-top: 2rem;
 `;
 
 const BlogCard = styled(motion.div)`
-  background-color: ${props => props.theme.bg.secondary};
-  border-radius: ${props => props.theme.radii.md};
+  background: ${props => props.theme.cards.background};
+  backdrop-filter: ${props => props.theme.cards.backdropFilter};
+  border: ${props => props.theme.cards.border};
+  border-radius: ${props => props.theme.cards.borderRadius};
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: ${props => props.theme.cards.transition};
+  width: ${props => props.theme.cards.width};
+  height: ${props => props.theme.cards.height};
   
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transform: ${props => props.theme.cards.hoverTransform};
+    box-shadow: ${props => props.theme.cards.hoverElevation};
   }
 `;
 
 const BlogContent = styled.div`
-  padding: 1.5rem;
+  padding: ${props => `${props.theme.cards.contentPadding.vertical} ${props.theme.cards.contentPadding.horizontal}`};
+  border-top: ${props => props.theme.cards.border};
 `;
 
 const BlogTitle = styled.h3`
   font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: ${props => props.theme.cards.titleMargin};
+  color: ${props => props.theme.cards.titleColor};
+  font-weight: 600;
 `;
 
 const BlogSummary = styled.p`
-  color: ${props => props.theme.text.secondary};
+  color: ${props => props.theme.cards.summaryColor};
   font-size: 0.9rem;
-  margin-bottom: 1rem;
+  margin-bottom: ${props => props.theme.cards.summaryMargin};
+  line-height: 1.6;
 `;
 
 const BlogMeta = styled.div`
@@ -117,7 +144,8 @@ const BlogMeta = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 0.8rem;
-  color: ${props => props.theme.text.secondary};
+  color: ${props => props.theme.cards.summaryColor};
+  margin-bottom: 0.75rem;
 `;
 
 const BlogTags = styled.div`
@@ -128,11 +156,13 @@ const BlogTags = styled.div`
 `;
 
 const BlogTag = styled.span`
-  background-color: ${props => props.theme.bg.tertiary};
-  color: ${props => props.theme.text.secondary};
+  background-color: ${props => props.theme.cards.tagBackground};
+  color: ${props => props.theme.cards.tagColor};
   font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.75rem;
   border-radius: ${props => props.theme.radii.full};
+  border: ${props => props.theme.cards.tagBorder};
+  font-weight: 500;
 `;
 
 const ProjectTags = styled.div`
@@ -143,11 +173,13 @@ const ProjectTags = styled.div`
 `;
 
 const ProjectTag = styled.span`
-  background-color: ${props => props.theme.bg.tertiary};
-  color: ${props => props.theme.text.secondary};
+  background-color: ${props => props.theme.cards.tagBackground};
+  color: ${props => props.theme.cards.tagColor};
   font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.75rem;
   border-radius: ${props => props.theme.radii.full};
+  border: ${props => props.theme.cards.tagBorder};
+  font-weight: 500;
 `;
 
 const fadeInUpVariants = {

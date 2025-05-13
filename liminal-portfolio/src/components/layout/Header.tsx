@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigation } from '../../context/NavigationContext';
 
 interface HeaderProps {
@@ -29,21 +27,7 @@ const HeaderContent = styled.div`
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-`;
-
-const Logo = styled.div`
-  font-size: 1.5rem;
-  font-weight: 700;
-  
-  a {
-    color: ${props => props.theme.text.primary};
-    text-decoration: none;
-    
-    &:hover {
-      color: ${props => props.theme.accent.primary};
-    }
-  }
+  justify-content: center; // Center the navigation
 `;
 
 const Nav = styled.nav`
@@ -54,7 +38,7 @@ const Nav = styled.nav`
 
 const NavList = styled.ul`
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -62,111 +46,58 @@ const NavList = styled.ul`
 
 const NavItem = styled.li`
   position: relative;
-`;
-
-const NavLink = styled.a<{ $isActive?: boolean }>`
-  color: ${props => props.$isActive ? props.theme.accent.primary : props.theme.text.primary};
-  text-decoration: none;
-  font-weight: ${props => props.$isActive ? '600' : '400'};
-  padding: 0.5rem 0;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: ${props => props.$isActive ? '100%' : '0%'};
-    height: 2px;
-    background-color: ${props => props.theme.accent.primary};
-    transition: width 0.3s ease;
-  }
-  
-  &:hover::after {
-    width: 100%;
-  }
-`;
-
-const MobileMenuButton = styled.button`
-  display: none;
-  background: transparent;
-  border: none;
-  color: ${props => props.theme.text.primary};
-  font-size: 1.5rem;
-  cursor: pointer;
-  width: 3rem;
-  height: 3rem;
-  
-  @media (max-width: ${props => props.theme.breakpoints?.md || '768px'}) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  &:focus-visible {
-    outline: 2px solid ${props => props.theme.accent.primary};
-  }
-`;
-
-const MobileMenu = styled(motion.div)`
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: ${props => props.theme.bg.primary};
-  z-index: ${props => props.theme.zIndices?.modal || 1000};
-  padding: 2rem;
-  
-  @media (max-width: ${props => props.theme.breakpoints?.md || '768px'}) {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
-const MobileMenuHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-`;
-
-const MobileMenuClose = styled.button`
-  background: transparent;
-  border: none;
-  color: ${props => props.theme.text.primary};
-  font-size: 1.5rem;
-  cursor: pointer;
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const MobileNavList = styled.ul`
-  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 2rem;
-  padding: 0;
+  align-items: center;
 `;
 
-const MobileNavItem = styled.li`
-  font-size: 1.5rem;
+// New styled component for navigation dots
+const NavDot = styled.div<{ $isActive?: boolean }>`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid ${props => props.theme.text.primary};
+  background-color: ${props => props.$isActive ? props.theme.text.primary : 'transparent'};
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 6px; // Space for the text below
+  display: block; // Ensure full click area
+  
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 
-const MobileNavLink = styled.a<{ $isActive?: boolean }>`
-  color: ${props => props.$isActive ? props.theme.accent.primary : props.theme.text.primary};
-  text-decoration: none;
-  font-weight: ${props => props.$isActive ? '600' : '400'};
-  display: block;
-  padding: 0.5rem;
+// New component for the text beneath dots
+const NavText = styled.span`
+  font-size: 0.75rem;
+  color: ${props => props.theme.text.secondary};
+  transition: color 0.3s ease;
+`;
+
+// Mobile dots container that replaces the hamburger menu
+const MobileDotsContainer = styled.div`
+  display: none;
+  justify-content: center;
+  gap: 2rem;
+  
+  @media (max-width: ${props => props.theme.breakpoints?.md || '768px'}) {
+    display: flex;
+  }
+`;
+
+// Mobile version of the navigation dot
+const MobileDot = styled(NavDot)`
+  width: 14px;
+  height: 14px;
+  margin-bottom: 0; // No text beneath in mobile
+  padding: 10px; // Add padding to increase click area
+  margin: -10px; // Offset padding to maintain visual size
 `;
 
 export const Header: React.FC<HeaderProps> = ({ transparent }) => {
-  const { currentPage, menuOpen, toggleMenu, closeMenu } = useNavigation();
+  const { currentPage, navigateTo } = useNavigation();
   const [isScrolled, setIsScrolled] = useState(false);
   
   // Handle scroll event to change header appearance
@@ -184,81 +115,46 @@ export const Header: React.FC<HeaderProps> = ({ transparent }) => {
     };
   }, []);
   
+  // Navigation items
   const navItems = [
     { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
     { name: 'Projects', path: '/projects' },
     { name: 'Blog', path: '/blog' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
   ];
   
   return (
-    <>
-      <HeaderContainer $isScrolled={isScrolled} $transparent={transparent}>
-        <HeaderContent>
-          <Logo>
-            <Link href="/" passHref legacyBehavior>
-              <a>Liminal</a>
-            </Link>
-          </Logo>
-          
-          <Nav>
-            <NavList>
-              {navItems.map(item => (
-                <NavItem key={item.path}>
-                  <Link href={item.path} passHref legacyBehavior>
-                    <NavLink $isActive={currentPage === item.path}>
-                      {item.name}
-                    </NavLink>
-                  </Link>
-                </NavItem>
-              ))}
-            </NavList>
-          </Nav>
-          
-          <MobileMenuButton onClick={toggleMenu} aria-label="Open menu">
-            ☰
-          </MobileMenuButton>
-        </HeaderContent>
-      </HeaderContainer>
-      
-      <AnimatePresence>
-        {menuOpen && (
-          <MobileMenu
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'tween', duration: 0.3 }}
-          >
-            <MobileMenuHeader>
-              <Logo>
-                <Link href="/" passHref legacyBehavior>
-                  <a onClick={closeMenu}>Liminal</a>
-                </Link>
-              </Logo>
-              <MobileMenuClose onClick={closeMenu} aria-label="Close menu">
-                ✕
-              </MobileMenuClose>
-            </MobileMenuHeader>
-            
-            <MobileNavList>
-              {navItems.map(item => (
-                <MobileNavItem key={item.path}>
-                  <Link href={item.path} passHref legacyBehavior>
-                    <MobileNavLink 
-                      $isActive={currentPage === item.path}
-                      onClick={closeMenu}
-                    >
-                      {item.name}
-                    </MobileNavLink>
-                  </Link>
-                </MobileNavItem>
-              ))}
-            </MobileNavList>
-          </MobileMenu>
-        )}
-      </AnimatePresence>
-    </>
+    <HeaderContainer $isScrolled={isScrolled} $transparent={transparent}>
+      <HeaderContent>
+        {/* Desktop Navigation with dots and text */}
+        <Nav>
+          <NavList>
+            {navItems.map(item => (
+              <NavItem key={item.path}>
+                <NavDot 
+                  $isActive={currentPage === item.path} 
+                  onClick={() => navigateTo(item.path)}
+                />
+                <NavText onClick={() => navigateTo(item.path)} style={{ cursor: 'pointer' }}>
+                  {item.name}
+                </NavText>
+              </NavItem>
+            ))}
+          </NavList>
+        </Nav>
+        
+        {/* Mobile Navigation with just dots */}
+        <MobileDotsContainer>
+          {navItems.map(item => (
+            <MobileDot 
+              key={item.path}
+              $isActive={currentPage === item.path} 
+              onClick={() => navigateTo(item.path)}
+            />
+          ))}
+        </MobileDotsContainer>
+      </HeaderContent>
+    </HeaderContainer>
   );
 };
 
