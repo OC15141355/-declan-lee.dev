@@ -1,31 +1,119 @@
 ---
-id: "project2"
-title: "E-Commerce Platform"
-slug: "e-commerce-platform"
-summary: "A full-featured e-commerce platform with real-time inventory management and payment processing."
-image: "/images/projects/ecommerce.jpg"
-techStack: ["Next.js", "TypeScript", "MongoDB", "Stripe", "Redux", "Tailwind CSS"]
-githubUrl: "https://github.com/username/ecommerce"
-liveUrl: "https://ecommerce.example.com"
+id: project2
+title: Providence
+summary: Providence is a comprehensive web application designed to increase transparency in Australian politics by making voting records, policy positions and political news more accessible to the public. I built this app to summarise information about representatives and for AWS codecommit/hosting experience.
+techStack: [React.js, Redux Toolkit, Styled Components, React Router, Recharts, React Context API, JavaScript, CSS, Axios, Jest, Tailwind CSS, MSW]
+category: Data Visualisation
+githubUrl: https://github.com/OC15141355/Providence
+liveUrl: https://main.d1abxghnrnv8dx.amplifyapp.com/
 featured: true
-date: "2023-02-28"
+image: /images/projects/providence-1.png
+date: "2023-05-15"
 ---
 
-A complete e-commerce solution built with Next.js and MongoDB, featuring product listings, shopping cart functionality, user authentication, and Stripe payment integration.
+import { Carousel } from '../../components/common/Carousel';
 
-## Features
+Providence is a comprehensive web application designed to democratise access to political information in Australia, making government processes and decision-making more transparent and accessible to all citizens. The application serves as a centralised hub where users can explore detailed information about their political representatives, track policy developments, monitor voting records and stay informed about political news.
 
-- Server-side rendering for SEO optimization
-- User authentication and profile management
-- Product search and filtering
-- Responsive design for mobile shopping
-- Secure payment processing with Stripe
-- Order tracking and history
+<Carousel
+  height="600px"
+  autoPlay={true}
+  interval={5000}
+  showArrows={true}
+  showDots={true}
+>
+  <Image 
+    src="/images/projects/providence-2.png" 
+    alt="Politician Profile View" 
+    width={1200} 
+    height={675}
+    quality={90}
+  />
+  <Image 
+    src="/images/projects/providence-3.png" 
+    alt="Voting Records Visualization" 
+    width={1200} 
+    height={675}
+    quality={90}
+  />
+  <Image 
+    src="/images/projects/providence-4.png" 
+    alt="Politician Comparison Tool" 
+    width={1200} 
+    height={675}
+    quality={90}
+  />
+  <Image 
+    src="/images/projects/providence-5.png" 
+    alt="Policy Position Analysis" 
+    width={1200} 
+    height={675}
+    quality={90}
+  />
+  <Image 
+    src="/images/projects/providence-6.png" 
+    alt="News Integration Feature" 
+    width={1200} 
+    height={675}
+    quality={90}
+  />
+  <Image 
+    src="/images/projects/providence-7.png" 
+    alt="Location-Based Representative Finder" 
+    width={1200} 
+    height={675}
+    quality={90}
+  />
+  <Image 
+    src="/images/projects/providence-8.png" 
+    alt="Dark Mode Interface" 
+    width={1200} 
+    height={675}
+    quality={90}
+  />
+  <Image 
+    src="/images/projects/providence-9.png" 
+    alt="Mobile Responsive View" 
+    width={1200} 
+    height={675}
+    quality={90}
+  />
+</Carousel>
 
-## Implementation
+## Project Highlights
 
-This project uses Next.js for both server-side rendering and API routes, MongoDB for data storage, and Stripe for payment processing. The frontend employs Redux for state management and Tailwind CSS for styling.
+### Architecture & Features
 
-## Challenges
+The application provides a rich set of features centered around four main areas: politicians, policies, parliamentary votes and news. Key features include:
 
-Implementing real-time inventory updates and ensuring payment security were key challenges. I created a webhook system to handle Stripe events and developed a locking mechanism to prevent inventory conflicts during checkout.
+- **Politician Profiles**: Detailed information including voting histories, policy positions, and attendance records
+- **Data Visualizations**: Interactive charts showing voting patterns and policy support levels
+- **Comparison Tools**: Side-by-side comparison of politicians across various metrics
+- **Location-Based Features**: Find representatives based on postcode or location
+- **News Integration**: Political news linked to relevant politicians and policies
+- **Dual Mode Operation**: API mode (external data) and Database mode (mock data)
+
+### Technical Implementation
+
+- **Frontend**: React with Redux for state management
+- **Data Visualization**: Recharts for interactive charts and graphs
+- **Styling**: Styled Components and Tailwind CSS
+- **Testing**: Jest and MSW for API mocking
+- **Hosting**: AWS Amplify with CodeCommit for CI/CD
+
+### Challenges & Solutions
+
+- **Data Complexity**: Implemented data normalization and caching strategies
+- **Performance**: Optimized chart rendering and implemented lazy loading
+- **Accessibility**: Ensured WCAG compliance and theme contrast ratios
+- **Offline Support**: Implemented service worker caching for core features
+
+## Technical Skills Demonstrated
+
+This project showcases my expertise in:
+- Complex React application architecture
+- Data visualization techniques
+- State management with Redux and Context API
+- AWS deployment and CI/CD pipelines
+- Accessibility best practices
+- Performance optimization strategies
