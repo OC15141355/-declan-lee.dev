@@ -6,11 +6,11 @@ export interface Project {
   slug: string;
   summary: string;
   content: string;
-  image?: string | null;
+  image: string | null;
   techStack: string[];
-  githubUrl?: string;
-  liveUrl?: string;
-  featured?: boolean;
+  githubUrl: string | null;
+  liveUrl: string | null;
+  featured: boolean;
   date: string;
 }
 

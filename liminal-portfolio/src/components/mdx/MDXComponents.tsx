@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { FiExternalLink, FiCode, FiAlertTriangle, FiInfo } from 'react-icons/fi';
+import { Carousel } from '../common/Carousel';
 
 // Styled components for MDX content
 const Heading1 = styled.h1`
@@ -271,6 +272,7 @@ const MDXComponents = {
   // Custom components
   ImageWithCaption,
   Callout,
+  Carousel,
 };
 
 export default MDXComponents;

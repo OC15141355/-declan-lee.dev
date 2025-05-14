@@ -21,13 +21,13 @@ interface FrontMatter {
   summary?: string;
   tags?: string[];
   category?: string;
-  image?: string;
+  image?: string | null;
   techStack?: string[];
-  githubUrl?: string;
-  liveUrl?: string;
+  githubUrl?: string | null;
+  liveUrl?: string | null;
   featured?: boolean;
   readingTime?: string;
-  [key: string]: string | string[] | boolean | undefined; // Allow other arbitrary properties with specific types
+  [key: string]: string | string[] | boolean | null | undefined;
 }
 
 // Get all file paths for a directory
@@ -45,8 +45,10 @@ export const parseMDXFile = async (filePath: string) => {
   const readTime = readingTime(content);
   
   // Cast data to FrontMatter type
+  // Convert dates to ISO strings for serialization
   const frontMatter: FrontMatter = {
     ...data,
+    date: data.date ? new Date(data.date).toISOString() : '',
     readingTime: readTime.text,
   };
   
@@ -145,8 +147,8 @@ export const getProjectBySlug = async (slug: string): Promise<SerializedProject>
     date: frontMatter.date || '',
     techStack: frontMatter.techStack || [],
     image: frontMatter.image || null,
-    githubUrl: frontMatter.githubUrl,
-    liveUrl: frontMatter.liveUrl,
+    githubUrl: frontMatter.githubUrl || null,
+    liveUrl: frontMatter.liveUrl || null,
     featured: frontMatter.featured || false,
     content,
     rawContent,

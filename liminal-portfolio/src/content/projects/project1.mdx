@@ -1,30 +1,121 @@
 ---
-id: "project1"
-title: "Portfolio Website"
-slug: "portfolio-website"
-summary: "A modern, animated but minimalist portfolio website with distinct themed sections."
-image: "/images/projects/portfolio.jpg"
-techStack: ["React", "TypeScript", "Three.js", "Framer Motion", "Styled Components"]
-githubUrl: "https://github.com/username/portfolio"
-liveUrl: "https://portfolio.example.com"
+id: project1
+title: Portfolio
+date: 2025-04-15
+summary: A minimalist, section-based portfolio with context-driven architecture featuring themed areas for sections with smooth transitions and interactive elements. Built with React, TypeScript, Framer Motion and Styled Components the application follows accessibility best practices while implementing responsive design patterns. The project demonstrates clean state management with Zustand, performance optimisation techniques and comprehensive testing standards to ensure reliability.
+techStack: [React, TypeScript, Framer Motion, Styled Components, Zustand, Jest, React Testing Library, Context API, Lazy Loading, Intersection Observer]
+category: Web Development
+githubUrl: https://github.com/OC15141355/liminal-portfolio
+image: /images/projects/portfolio.jpg
 featured: true
-date: "2023-04-15"
 ---
 
-A single-page application portfolio website featuring three distinct themed sections with smooth transitions and animations. Built with React, TypeScript, and Three.js.
+import { Carousel } from '../../components/common/Carousel';
 
-## Features
+Liminal Portfolio is a sophisticated single-page application built with React and TypeScript that showcases my projects and blog content through distinctly themed sections with smooth transitions. The application features a consistent architectural pattern across different sections while providing unique visual identities for each area.
 
-- Smooth section transitions with Framer Motion
-- 3D elements with Three.js
-- Responsive design for all devices
-- Dark mode support
-- SEO optimized
+<Carousel>
+  ![Portfolio Home Section](/content/projects/liminal-1.png)
+  ![Projects Section](/content/projects/liminal-2.png) 
+  ![Blog Section](/content/projects/liminal-3.png)
+  ![Mobile View](/content/projects/liminal-4.png)
+</Carousel>
 
-## Implementation
+## Project Highlights
 
-The site leverages React for component structure, TypeScript for type safety, and advanced animation libraries to create a captivating user experience while maintaining performance. Each section has its own theme, transitioning smoothly as the user scrolls.
+### Architecture & Design
 
-## Challenges
+The portfolio employs a modular, context-driven architecture with these key features:
 
-Creating performant 3D animations that work well across all devices presented several challenges. I optimized the Three.js elements to ensure smooth performance even on mobile devices, and implemented progressive enhancement to provide a good experience regardless of device capabilities.
+- **Distinct Themed Sections**: Each section (Home, Projects, Blog) has a unique visual identity with custom animations and styling while maintaining cohesive design language
+- **Context-Based State Management**: Custom state management implementation with React Context API and reducers, supplemented by Zustand for global state
+- **Performance-Optimized Animations**: Custom animation components with automatic performance adjustments based on device capabilities
+- **Responsive & Accessible Design**: Fully responsive layouts with accessibility considerations including reduced motion preferences
+
+### Technical Implementation
+
+#### State Management
+
+The application follows a pattern of separation between different types of state:
+
+```typescript
+// Multiple specialized stores for different concerns
+export const useBlogDataStore = create<BlogDataState>((set) => ({
+  blogPosts: [],
+  setBlogPosts: (posts) => set({ blogPosts: posts }),
+  selectedPost: null,
+  // Additional state and actions...
+}));
+
+export const useBlogFilterStore = create<BlogFilterState>((set) => ({
+  selectedTag: null,
+  setSelectedTag: (tag) => set({ selectedTag: tag }),
+  // Additional filter state...
+}));
+```
+
+#### Transitions & Animations
+
+The application features a custom transition system for moving between sections:
+
+```typescript
+// TransitionZone component creates smooth visual transitions
+<TransitionZone 
+  id="transition-home-projects"
+  ref={(el) => observeSection(el)}
+  fromTheme={theme.home} 
+  toTheme={theme.projects}
+  reduceMotion={prefersReducedMotion}
+/>
+```
+
+#### Blog System
+
+The blog implementation features:
+- Markdown content with frontmatter for metadata
+- Category and tag organization with visual styling
+- Series support for multi-part content
+- Table of contents generation
+- Search functionality across all fields
+
+#### Projects Showcase
+
+The projects section includes:
+- Featured project highlighting
+- Interactive timeline for chronological exploration
+- Tech stack display with categorization
+- Filtering by technologies and categories
+
+## Development Insights
+
+### Performance Considerations
+
+The portfolio implements several strategies to ensure smooth performance:
+- **Lazy Loading**: Sections are loaded only when needed
+- **Memoization**: React.memo and useMemo for expensive components
+- **Performance Monitoring**: Custom utilities for measuring and tracking render counts
+- **Responsive Animation**: Animations automatically adjust based on device capabilities
+
+### Testing Strategy
+
+The application includes a comprehensive testing infrastructure:
+- Jest and React Testing Library for component testing
+- Custom mock implementations for browser APIs
+- Accessibility testing with jest-axe
+- Performance-aware test utilities
+
+### Future Enhancements
+
+Planned improvements include:
+- Integration with a headless CMS for easier content management
+- Expanded analytics, SEO and visitor tracking
+
+## Technical Skills Demonstrated
+
+This project showcases my proficiency in:
+- React component patterns and architecture
+- TypeScript with strict typing
+- State management strategies
+- Animation performance optimization
+- Accessibility implementation
+- Testing methodologies
