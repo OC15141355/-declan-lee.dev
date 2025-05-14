@@ -6,7 +6,7 @@ summary: A minimalist, section-based portfolio with context-driven architecture 
 techStack: [React, TypeScript, Framer Motion, Styled Components, Zustand, Jest, React Testing Library, Context API, Lazy Loading, Intersection Observer]
 category: Web Development
 githubUrl: https://github.com/OC15141355/liminal-portfolio
-image: /images/projects/portfolio.jpg
+image: /images/projects/liminal-1.png
 featured: true
 ---
 
@@ -14,11 +14,35 @@ import { Carousel } from '../../components/common/Carousel';
 
 Liminal Portfolio is a sophisticated single-page application built with React and TypeScript that showcases my projects and blog content through distinctly themed sections with smooth transitions. The application features a consistent architectural pattern across different sections while providing unique visual identities for each area.
 
-<Carousel>
-  ![Portfolio Home Section](/content/projects/liminal-1.png)
-  ![Projects Section](/content/projects/liminal-2.png) 
-  ![Blog Section](/content/projects/liminal-3.png)
-  ![Mobile View](/content/projects/liminal-4.png)
+<Carousel
+  height="600px"
+  autoPlay={true}
+  interval={6000}
+  showArrows={true}
+  showDots={true}
+>
+  <Image 
+    src="/images/projects/liminal-2.png" 
+    alt="Projects Section" 
+    width={1000} 
+    height={600} 
+    quality={90}
+    priority={true}
+  />
+  <Image 
+    src="/images/projects/liminal-3.png" 
+    alt="Blog Section" 
+    width={1000} 
+    height={600}
+    quality={90}
+  />
+  <Image 
+    src="/images/projects/liminal-4.png" 
+    alt="Mobile View" 
+    width={1000} 
+    height={600}
+    quality={90}
+  />
 </Carousel>
 
 ## Project Highlights

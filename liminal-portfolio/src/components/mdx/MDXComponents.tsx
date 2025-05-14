@@ -246,6 +246,7 @@ const MDXComponents = {
   blockquote: Blockquote,
   pre: CodeBlock,
   code: InlineCode,
+  Image,
   a: ({ href = '', ...props }) => {
     const isExternal = href.startsWith('http');
     
@@ -272,7 +273,7 @@ const MDXComponents = {
   // Custom components
   ImageWithCaption,
   Callout,
-  Carousel,
+  Carousel: (props: React.ComponentProps<typeof Carousel>) => <Carousel {...props} />,
 };
 
 export default MDXComponents;
