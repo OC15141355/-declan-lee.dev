@@ -32,13 +32,58 @@ export const NavigationProvider: React.FC<{ children: ReactNode }> = ({ children
     setCurrentPage(page);
   }, [currentPage]);
   
-  // Navigate to a specific path
+  // Navigate to a specific path with enhanced error handling
   const navigateTo = useCallback((path: string) => {
+    // Validate path format
+    if (!path.startsWith('/')) {
+      console.error('Invalid navigation path - must start with /');
+      return Promise.reject(new Error('Invalid path'));
+    }
+
     setIsNavigating(true);
     setPreviousPage(currentPage);
-    router.push(path).finally(() => {
-      setIsNavigating(false);
-    });
+    
+    // Use try-catch with async/await for better error handling
+    const navigate = async () => {
+      try {
+        // Use router.push with specific options to avoid SecurityError
+        await router.push(path, undefined, { 
+          scroll: true,
+          shallow: false // Avoid shallow routing which can cause SecurityError
+        });
+        return true;
+      } catch (error) {
+        // Specifically handle SecurityError
+        if (error instanceof DOMException && error.name === 'SecurityError') {
+          console.error('SecurityError during navigation. Using alternative method.');
+          
+          // Alternative navigation approach using replace instead of push
+          try {
+            await router.replace(path);
+            return true;
+          } catch (fallbackError) {
+            console.error('Fallback navigation failed:', fallbackError);
+            // Last resort: try to navigate to home page
+            if (path !== '/') {
+              await router.replace('/');
+            }
+            return false;
+          }
+        } else {
+          // Handle other errors
+          console.error('Navigation failed:', error);
+          // Fallback to home page if navigation fails
+          if (path !== '/') {
+            await router.replace('/');
+          }
+          return false;
+        }
+      } finally {
+        setIsNavigating(false);
+      }
+    };
+    
+    return navigate();
   }, [currentPage, router]);
   
   // Mobile menu toggle

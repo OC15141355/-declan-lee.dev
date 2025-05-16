@@ -303,10 +303,19 @@ export default function BlogPostPage({ post, relatedPosts, tableOfContents }: Bl
             <BackButton 
               variant="text" 
               size="sm" 
-              onClick={() => router.back()}
+              onClick={() => {
+                try {
+                  // Use direct navigation to blog index instead of router.back()
+                  router.push('/blog');
+                } catch (error) {
+                  console.error('Navigation error:', error);
+                  // Fallback to direct URL change if router fails
+                  window.location.href = '/blog';
+                }
+              }}
               icon={<FaChevronLeft />}
             >
-              Back
+              Back to Blog
             </BackButton>
             
             <PostHeader>
@@ -376,13 +385,14 @@ export default function BlogPostPage({ post, relatedPosts, tableOfContents }: Bl
                 <RelatedPostGrid>
                   {relatedPosts.map(relatedPost => (
                     <RelatedPostCard key={relatedPost.id}>
-                      <Link href={`/blog/${relatedPost.slug}`} passHref legacyBehavior>
-                        <a style={{ textDecoration: 'none', color: 'inherit' }}>
-                          <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>{relatedPost.title}</h3>
-                          <div style={{ fontSize: '0.8rem', color: theme.theme.text.secondary, marginBottom: '0.5rem' }}>
-                            {formatDate(relatedPost.date)}
-                          </div>
-                        </a>
+                      <Link 
+                        href={`/blog/${relatedPost.slug}`} 
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+                        <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>{relatedPost.title}</h3>
+                        <div style={{ fontSize: '0.8rem', color: theme.theme.text.secondary, marginBottom: '0.5rem' }}>
+                          {formatDate(relatedPost.date)}
+                        </div>
                       </Link>
                     </RelatedPostCard>
                   ))}
@@ -441,10 +451,19 @@ export default function BlogPostPage({ post, relatedPosts, tableOfContents }: Bl
               <BackButton 
                 variant="text" 
                 size="sm" 
-                onClick={() => router.back()}
+                onClick={() => {
+                  try {
+                    // Use direct navigation to blog index instead of router.back()
+                    router.push('/blog');
+                  } catch (error) {
+                    console.error('Navigation error:', error);
+                    // Fallback to direct URL change if router fails
+                    window.location.href = '/blog';
+                  }
+                }}
                 icon={<FaChevronLeft />}
               >
-                Back
+                Back to Blog
               </BackButton>
               
               <PostHeader>
@@ -514,13 +533,14 @@ export default function BlogPostPage({ post, relatedPosts, tableOfContents }: Bl
                   <RelatedPostGrid>
                     {relatedPosts.map(relatedPost => (
                       <RelatedPostCard key={relatedPost.id}>
-                        <Link href={`/blog/${relatedPost.slug}`} passHref legacyBehavior>
-                          <a style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>{relatedPost.title}</h3>
-                            <div style={{ fontSize: '0.8rem', color: theme.theme.text.secondary, marginBottom: '0.5rem' }}>
-                              {formatDate(relatedPost.date)}
-                            </div>
-                          </a>
+                        <Link 
+                          href={`/blog/${relatedPost.slug}`} 
+                          style={{ textDecoration: 'none', color: 'inherit' }}
+                        >
+                          <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>{relatedPost.title}</h3>
+                          <div style={{ fontSize: '0.8rem', color: theme.theme.text.secondary, marginBottom: '0.5rem' }}>
+                            {formatDate(relatedPost.date)}
+                          </div>
                         </Link>
                       </RelatedPostCard>
                     ))}

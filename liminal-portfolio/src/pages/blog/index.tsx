@@ -328,31 +328,40 @@ export default function BlogPage({ posts, tags, categories }: BlogPageProps) {
     
     setFilteredPosts(filtered);
     
-    // Update URL with filter parameters
-    const queryParams = new URLSearchParams();
-    
-    if (searchTerm) {
-      queryParams.set('search', searchTerm);
+    // Safely update URL with filter parameters
+    try {
+      // Create query parameters
+      const queryParams = new URLSearchParams();
+      
+      if (searchTerm) {
+        queryParams.set('search', searchTerm);
+      }
+      
+      if (selectedTags.length === 1) {
+        queryParams.set('tag', selectedTags[0]);
+      }
+      
+      if (selectedCategory) {
+        queryParams.set('category', selectedCategory);
+      }
+      
+      const queryString = queryParams.toString();
+      const newPath = '/blog' + (queryString ? `?${queryString}` : '');
+      
+      // Use history.replaceState instead of router.push to avoid SecurityError
+      // This updates the URL without triggering a navigation event
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(
+          { ...window.history.state, as: newPath, url: newPath },
+          '',
+          newPath
+        );
+      }
+    } catch (error) {
+      // Log error but don't break the UI
+      console.error('Error updating URL:', error);
     }
-    
-    if (selectedTags.length === 1) {
-      queryParams.set('tag', selectedTags[0]);
-    }
-    
-    if (selectedCategory) {
-      queryParams.set('category', selectedCategory);
-    }
-    
-    const queryString = queryParams.toString();
-    router.push(
-      {
-        pathname: '/blog',
-        search: queryString ? `?${queryString}` : '',
-      },
-      undefined,
-      { shallow: true }
-    );
-  }, [searchTerm, selectedTags, selectedCategory, posts, router]);
+  }, [searchTerm, selectedTags, selectedCategory, posts]);
   
   // Toggle tag selection
   const handleTagClick = (tag: string) => {
@@ -373,7 +382,23 @@ export default function BlogPage({ posts, tags, categories }: BlogPageProps) {
     setSearchTerm('');
     setSelectedTags([]);
     setSelectedCategory(null);
-    router.push('/blog', undefined, { shallow: true });
+    
+    try {
+      // Use history.replaceState instead of router.push to avoid SecurityError
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(
+          { ...window.history.state, as: '/blog', url: '/blog' },
+          '',
+          '/blog'
+        );
+      }
+    } catch (error) {
+      console.error('Error clearing filters:', error);
+      // Fallback to direct URL change if history API fails
+      if (typeof window !== 'undefined') {
+        window.location.href = '/blog';
+      }
+    }
   };
   
   // Format date
