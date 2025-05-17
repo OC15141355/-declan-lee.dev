@@ -3,12 +3,13 @@ import { GetStaticProps } from 'next';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaSearch, FaTags, FaFolder, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 
 import Layout from '../../components/layout/Layout';
 import Section from '../../components/layout/Section';
 import Button from '../../components/common/Button';
+import BlogNavigator from '../../components/blog/BlogNavigator';
 import { getAllBlogPosts, getAllTags, getAllCategories } from '../../utils/mdx';
 import { BlogPost } from '../../types/BlogPost';
 
@@ -79,79 +80,12 @@ const SearchIcon = styled.div`
   color: ${props => props.theme.text.secondary};
 `;
 
-const FilterSection = styled.div`
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    flex-direction: column;
-    gap: 1rem;
-  }
-`;
-
-const FilterGroup = styled.div`
-  flex: 1;
-`;
-
-const FilterHeading = styled.h3`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
-  margin-bottom: 0.75rem;
-  color: ${props => props.theme.text.secondary};
-`;
-
-const TagsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-`;
-
-const Tag = styled.button<{ $active?: boolean }>`
-  background-color: ${props => props.$active ? props.theme.accent.primary : props.theme.bg.tertiary};
-  color: ${props => props.$active ? props.theme.bg.primary : props.theme.text.secondary};
-  border: none;
-  padding: 0.5rem 0.75rem;
-  border-radius: ${props => props.theme.radii.full};
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background-color: ${props => props.$active ? props.theme.accent.primary : props.theme.accent.secondary};
-    color: ${props => props.$active ? props.theme.bg.primary : props.theme.text.primary};
-  }
-`;
-
-const CategoriesContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-`;
-
-const Category = styled.button<{ $active?: boolean }>`
-  background-color: ${props => props.$active ? props.theme.accent.primary : props.theme.bg.tertiary};
-  color: ${props => props.$active ? props.theme.bg.primary : props.theme.text.secondary};
-  border: none;
-  padding: 0.5rem 0.75rem;
-  border-radius: ${props => props.theme.radii.full};
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background-color: ${props => props.$active ? props.theme.accent.primary : props.theme.accent.secondary};
-    color: ${props => props.$active ? props.theme.bg.primary : props.theme.text.primary};
-  }
-`;
 
 const ActiveFiltersContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 const ActiveFilter = styled.div`
@@ -182,6 +116,7 @@ const BlogPostsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
+  margin-top: -1rem;
   
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
@@ -272,7 +207,7 @@ const fadeInUpVariants = {
   })
 };
 
-export default function BlogPage({ posts, tags, categories }: BlogPageProps) {
+export default function BlogPage({ posts, categories }: BlogPageProps) {
   const router = useRouter();
   const { query } = router;
   
@@ -373,8 +308,8 @@ export default function BlogPage({ posts, tags, categories }: BlogPageProps) {
   };
   
   // Toggle category selection
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory(prev => (prev === category ? null : category));
+  const handleCategoryClick = (category: string | null) => {
+    setSelectedCategory(category);
   };
   
   // Clear all filters
@@ -423,7 +358,7 @@ export default function BlogPage({ posts, tags, categories }: BlogPageProps) {
           </PageHeader>
         </Section>
         
-        <Section id="blog-filters">
+        <Section id="blog-filters" style={{ paddingBottom: '1rem' }}>
           <SearchContainer>
             <SearchField>
               <SearchIcon>
@@ -448,45 +383,14 @@ export default function BlogPage({ posts, tags, categories }: BlogPageProps) {
             )}
           </SearchContainer>
           
-          <FilterSection>
-            <FilterGroup>
-              <FilterHeading>
-                <FaTags />
-                Tags
-              </FilterHeading>
-              <TagsContainer>
-                {tags.map(tag => (
-                  <Tag
-                    key={tag.name}
-                    $active={selectedTags.includes(tag.name)}
-                    onClick={() => handleTagClick(tag.name)}
-                  >
-                    {tag.name} ({tag.count})
-                  </Tag>
-                ))}
-              </TagsContainer>
-            </FilterGroup>
-            
-            <FilterGroup>
-              <FilterHeading>
-                <FaFolder />
-                Categories
-              </FilterHeading>
-              <CategoriesContainer>
-                {categories.map(category => (
-                  <Category
-                    key={category.name}
-                    $active={selectedCategory === category.name}
-                    onClick={() => handleCategoryClick(category.name)}
-                  >
-                    {category.name} ({category.count})
-                  </Category>
-                ))}
-              </CategoriesContainer>
-            </FilterGroup>
-          </FilterSection>
+          <BlogNavigator
+            posts={posts}
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onCategorySelect={handleCategoryClick}
+          />
           
-          {(selectedTags.length > 0 || selectedCategory) && (
+          {(selectedTags.length > 0) && (
             <ActiveFiltersContainer>
               {selectedTags.map(tag => (
                 <ActiveFilter key={tag}>
@@ -496,20 +400,11 @@ export default function BlogPage({ posts, tags, categories }: BlogPageProps) {
                   </ClearFilterButton>
                 </ActiveFilter>
               ))}
-              
-              {selectedCategory && (
-                <ActiveFilter>
-                  <span>{selectedCategory}</span>
-                  <ClearFilterButton onClick={() => setSelectedCategory(null)}>
-                    <FaTimes />
-                  </ClearFilterButton>
-                </ActiveFilter>
-              )}
             </ActiveFiltersContainer>
           )}
         </Section>
         
-        <Section id="blog-posts">
+        <Section id="blog-posts" style={{ paddingTop: '1rem' }}>
           {filteredPosts.length > 0 ? (
             <BlogPostsGrid>
               {filteredPosts.map((post, index) => (
