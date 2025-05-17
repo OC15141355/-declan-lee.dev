@@ -37,149 +37,132 @@ const SectionHeading = styled.h2`
 
 const ProjectGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(${props => props.theme.cards.width}, 1fr));
-  gap: ${props => props.theme.cards.gap};
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
   margin-top: 2rem;
 `;
 
 const ProjectCard = styled(motion.div)`
-  background: ${props => props.theme.cards.background};
-  backdrop-filter: ${props => props.theme.cards.backdropFilter};
-  border: ${props => props.theme.cards.border};
-  border-radius: ${props => props.theme.cards.borderRadius};
+  background-color: ${props => props.theme.bg.secondary};
+  border-radius: ${props => props.theme.radii.md};
   overflow: hidden;
-  transition: ${props => props.theme.cards.transition};
-  width: ${props => props.theme.cards.width};
-  height: ${props => props.theme.cards.height};
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   
   &:hover {
-    transform: ${props => props.theme.cards.hoverTransform};
-    box-shadow: ${props => props.theme.cards.hoverElevation};
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
 `;
 
 const ProjectImage = styled.div`
-  height: ${props => props.theme.cards.imageHeight};
+  height: 180px;
   background-color: ${props => props.theme.bg.tertiary};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  position: relative;
-  
-  &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: ${props => props.theme.cards.imageOverlay};
-  }
 `;
 
 const ProjectContent = styled.div`
-  padding: ${props => `${props.theme.cards.contentPadding.vertical} ${props.theme.cards.contentPadding.horizontal}`};
-  border-top: ${props => props.theme.cards.border};
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ProjectTitle = styled.h3`
   font-size: 1.25rem;
-  margin-bottom: ${props => props.theme.cards.titleMargin};
-  color: ${props => props.theme.cards.titleColor};
-  font-weight: 600;
+  margin-bottom: 0.5rem;
 `;
 
 const ProjectSummary = styled.p`
-  color: ${props => props.theme.cards.summaryColor};
+  color: ${props => props.theme.text.secondary};
   font-size: 0.9rem;
-  margin-bottom: ${props => props.theme.cards.summaryMargin};
-  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex: 1;
 `;
 
 
 const BlogGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(${props => props.theme.cards.width}, 1fr));
-  gap: ${props => props.theme.cards.gap};
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
   margin-top: 2rem;
 `;
 
 const BlogCard = styled(motion.div)`
-  background: ${props => props.theme.cards.background};
-  backdrop-filter: ${props => props.theme.cards.backdropFilter};
-  border: ${props => props.theme.cards.border};
-  border-radius: ${props => props.theme.cards.borderRadius};
+  background-color: ${props => props.theme.bg.secondary};
+  border-radius: ${props => props.theme.radii.md};
   overflow: hidden;
-  transition: ${props => props.theme.cards.transition};
-  width: ${props => props.theme.cards.width};
-  height: ${props => props.theme.cards.height};
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   
   &:hover {
-    transform: ${props => props.theme.cards.hoverTransform};
-    box-shadow: ${props => props.theme.cards.hoverElevation};
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }
 `;
 
 const BlogContent = styled.div`
-  padding: ${props => `${props.theme.cards.contentPadding.vertical} ${props.theme.cards.contentPadding.horizontal}`};
-  border-top: ${props => props.theme.cards.border};
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 `;
 
 const BlogTitle = styled.h3`
   font-size: 1.25rem;
-  margin-bottom: ${props => props.theme.cards.titleMargin};
-  color: ${props => props.theme.cards.titleColor};
-  font-weight: 600;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
 `;
 
 const BlogSummary = styled.p`
-  color: ${props => props.theme.cards.summaryColor};
+  color: ${props => props.theme.text.secondary};
   font-size: 0.9rem;
-  margin-bottom: ${props => props.theme.cards.summaryMargin};
-  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex: 1;
 `;
 
 const BlogMeta = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  margin-bottom: 0.5rem;
+  color: ${props => props.theme.text.secondary};
   font-size: 0.8rem;
-  color: ${props => props.theme.cards.summaryColor};
-  margin-bottom: 0.75rem;
 `;
 
 const BlogTags = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: auto;
 `;
 
 const BlogTag = styled.span`
-  background-color: ${props => props.theme.cards.tagBackground};
-  color: ${props => props.theme.cards.tagColor};
+  background-color: ${props => props.theme.bg.tertiary};
+  color: ${props => props.theme.text.secondary};
   font-size: 0.75rem;
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.5rem;
   border-radius: ${props => props.theme.radii.full};
-  border: ${props => props.theme.cards.tagBorder};
-  font-weight: 500;
 `;
 
 const ProjectTags = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: auto;
 `;
 
 const ProjectTag = styled.span`
-  background-color: ${props => props.theme.cards.tagBackground};
-  color: ${props => props.theme.cards.tagColor};
+  background-color: ${props => props.theme.bg.tertiary};
+  color: ${props => props.theme.text.secondary};
   font-size: 0.75rem;
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.5rem;
   border-radius: ${props => props.theme.radii.full};
-  border: ${props => props.theme.cards.tagBorder};
-  font-weight: 500;
 `;
 
 const fadeInUpVariants = {
